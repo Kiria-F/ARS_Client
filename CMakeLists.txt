@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(ARS_Client VERSION 0.1 LANGUAGES CXX)
+project(ars-client VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -8,35 +8,39 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
-qt_add_executable(appARS_Client
+qt_add_executable(ars-client-app
     main.cpp
 )
 
-qt_add_qml_module(appARS_Client
-    URI ARS_Client
+qt_add_qml_module(ars-client-app
+    URI ars-client
     VERSION 1.0
-    QML_FILES Main.qml
-    QML_FILES ARSButton.qml
-    SOURCES appcore.h appcore.cpp
+    QML_FILES
+    Main.qml
+    QML_FILES ArsButton.qml
+    SOURCES
+    SOURCES
+    SOURCES api.h api.cpp
+    SOURCES arsapiurl.h arsapiurl.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-set_target_properties(appARS_Client PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appARS_Client
+set_target_properties(ars-client-app PROPERTIES
+    #    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.ars-client-app
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(appARS_Client
+target_link_libraries(ars-client-app
     PRIVATE Qt6::Quick
 )
 
 include(GNUInstallDirs)
-install(TARGETS appARS_Client
+install(TARGETS ars-client-app
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
