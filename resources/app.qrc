@@ -1,0 +1,8 @@
+<RCC>
+    <qresource lang="qml" prefix="/qml">
+        <file>ArsButton.qml</file>
+        <file>Main.qml</file>
+        <file>Styles.qml</file>
+        <file>qmldir</file>
+    </qresource>
+</RCC>

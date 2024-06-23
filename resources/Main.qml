@@ -5,7 +5,7 @@ Window {
     height: 480
     visible: true
     title: qsTr("ARS")
-    color: "#202020"
+    color: Styles.mainbg
 
     Column {
         spacing: 20

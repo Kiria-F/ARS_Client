@@ -4,24 +4,22 @@ project(ars-client VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(CMAKE_AUTORCC ON)
+
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(ars-client-app
-    main.cpp
+    resources/app.qrc
+    sources/main.cpp
 )
 
 qt_add_qml_module(ars-client-app
     URI ars-client
     VERSION 1.0
-    QML_FILES
-    Main.qml
-    QML_FILES ArsButton.qml
-    SOURCES
-    SOURCES
-    SOURCES api.h api.cpp
-    SOURCES arsapiurl.h arsapiurl.cpp
+    SOURCES sources/api.h sources/api.cpp
+    SOURCES sources/arsapiurl.h sources/arsapiurl.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
