@@ -5,7 +5,7 @@ Window {
     height: 480
     visible: true
     title: qsTr("ARS")
-    color: Styles.mainbg
+    color: Global.backgroundColor
 
     Column {
         spacing: 20
@@ -14,7 +14,7 @@ Window {
             horizontalCenter: parent.horizontalCenter
         }
 
-        ArsButton {
+        WButton {
             id: msgButton
 
             anchors.horizontalCenter: parent.horizontalCenter
@@ -30,7 +30,7 @@ Window {
                 }
             }
 
-            onClick: {
+            onClicked: {
                 api.authLogin("f", "fds")
             }
         }
@@ -46,7 +46,7 @@ Window {
                 pixelSize: 8
                 weight: 1000
             }
-            color: Qt.rgba(1, 1, 1, 0.8)
+            color: "black"
         }
     }
 }

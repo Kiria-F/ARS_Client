@@ -2,6 +2,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QScreen>
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
@@ -17,6 +18,5 @@ int main(int argc, char *argv[]) {
         &engine, &QQmlApplicationEngine::objectCreationFailed, &app,
         []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
     engine.load(QUrl("qrc:/qml/Main.qml"));
-
     return app.exec();
 }
