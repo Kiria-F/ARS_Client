@@ -4,5 +4,13 @@
         <file>Global.qml</file>
         <file>qmldir</file>
         <file>WButton.qml</file>
+        <file>Login.qml</file>
+        <file>WPlatform.qml</file>
+        <file>WTextFieldOld.qml</file>
+        <file>WText.qml</file>
+        <file>WPopUp.qml</file>
+        <file>WStateButton.qml</file>
+        <file>WTextField.qml</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

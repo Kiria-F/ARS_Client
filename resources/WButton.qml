@@ -2,9 +2,9 @@ import QtQuick
 import QtQuick.Effects
 
 Item {
-    id: wButton
-    height: 40
-    width: 100
+    id: root
+    height: 40 * Global.scale
+    width: 100 * Global.scale
     property alias text: wButtonText.text
     property color color: "white"
     signal clicked(var mouse)
@@ -16,9 +16,9 @@ Item {
     Rectangle {
         id: wButtonRect
         y: 0
-        color: wButton.color
-        height: wButton.height * Global.scale
-        width: wButton.width * Global.scale
+        color: root.color
+        height: root.height
+        width: root.width
         radius: height / 2
         border.width: 0
         border.color: "#bbbbff"
@@ -93,7 +93,7 @@ Item {
             PropertyAnimation {
                 target: wButtonRect
                 property: "color.r"
-                to: wButton.color.r * 0.98
+                to: root.color.r * 0.98
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
@@ -101,7 +101,7 @@ Item {
             PropertyAnimation {
                 target: wButtonRect
                 property: "color.g"
-                to: wButton.color.g * 0.98
+                to: root.color.g * 0.98
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
@@ -109,7 +109,7 @@ Item {
             PropertyAnimation {
                 target: wButtonRect
                 property: "color.b"
-                to: wButton.color.b * 0.98
+                to: root.color.b * 0.98
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
@@ -161,7 +161,7 @@ Item {
             PropertyAnimation {
                 target: wButtonRect
                 property: "color.r"
-                to: wButton.color.r
+                to: root.color.r
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
@@ -169,7 +169,7 @@ Item {
             PropertyAnimation {
                 target: wButtonRect
                 property: "color.g"
-                to: wButton.color.g
+                to: root.color.g
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
@@ -177,7 +177,7 @@ Item {
             PropertyAnimation {
                 target: wButtonRect
                 property: "color.b"
-                to: wButton.color.b
+                to: root.color.b
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
