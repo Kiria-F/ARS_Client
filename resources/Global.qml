@@ -13,6 +13,7 @@ QtObject {
     property color warningColor: '#ffff88';
     property color errorColor: '#ff8888'
     property string fontFamily: 'Source Code Pro'
+    property int animationDuration: 200
 
     property int desktopHeight: Screen.desktopAvailableHeight
     property int desktopWidth: Screen.desktopAvailableWidth

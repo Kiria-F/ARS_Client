@@ -4,46 +4,47 @@ import QtQuick.Effects
 Item {
     id: root
     height: 40 * Global.scale
-    width: 100 * Global.scale
-    property alias text: wButtonText.text
+    width: autoSize ? buttonText.width + 50 * Global.scale : 100 * Global.scale
+    property bool autoSize: false
+    property alias text: buttonText.text
     property color color: 'white'
+    property alias clickAnimation: buttonClickAnimation
     signal clicked(var mouse)
 
     Component.onCompleted: {
-        wButtonMA.clicked.connect(clicked)
+        // buttonMA.clicked.connect(clicked)
     }
 
     Rectangle {
-        id: wButtonRect
+        id: buttonRect
         y: 0
         color: root.color
-        height: root.height
-        width: root.width
+        width: parent.width
+        height: parent.height
         radius: height / 2
         border.width: 0
         border.color: '#bbbbff'
 
         MouseArea {
-            id: wButtonMA
+            id: buttonMA
             hoverEnabled: true
             anchors.fill: parent
             // property bool hovered: false
             onEntered: {
-                wButtonRect.border.width = 1
+                buttonRect.border.width = 1
             }
             onExited: {
-                wButtonRect.border.width = 0
+                buttonRect.border.width = 0
             }
-            onClicked: {
-                wButtonClickAnimation.restart()
+            onClicked: function(mouse) {
+                root.clicked(mouse)
+                buttonClickAnimation.restart()
             }
         }
 
         Text {
-            id: wButtonText
-            property real defaultY: (parent.height - height) / 2
-            y: defaultY
-            anchors.horizontalCenter: parent.horizontalCenter
+            id: buttonText
+            anchors.centerIn: parent
             color: Global.strongTextColor
             font {
                 pixelSize: Global.fontSize
@@ -54,71 +55,71 @@ Item {
     }
 
     SequentialAnimation {
-        id: wButtonClickAnimation
+        id: buttonClickAnimation
 
         ParallelAnimation {
 
             NumberAnimation {
-                target: wButtonShadow
+                target: buttonShadow
                 property: 'shadowBlur'
                 to: 0.1
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             NumberAnimation {
-                target: wButtonShadow
+                target: buttonShadow
                 property: 'shadowScale'
                 to: 0.95
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             NumberAnimation {
-                target: wButtonShadow
+                target: buttonShadow
                 property: 'shadowVerticalOffset'
                 to: 0
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             NumberAnimation {
-                target: wButtonShadow
+                target: buttonShadow
                 property: 'shadowOpacity'
                 to: 0.5
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             PropertyAnimation {
-                target: wButtonRect
+                target: buttonRect
                 property: 'color.r'
                 to: root.color.r * 0.98
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             PropertyAnimation {
-                target: wButtonRect
+                target: buttonRect
                 property: 'color.g'
                 to: root.color.g * 0.98
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             PropertyAnimation {
-                target: wButtonRect
+                target: buttonRect
                 property: 'color.b'
                 to: root.color.b * 0.98
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             NumberAnimation {
-                target: wButtonRect
+                target: buttonRect
                 property: 'y'
                 to: 3 * Global.scale
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
         }
@@ -126,76 +127,76 @@ Item {
         ParallelAnimation {
 
             NumberAnimation {
-                target: wButtonShadow
+                target: buttonShadow
                 property: 'shadowBlur'
                 to: 0.3
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
 
             NumberAnimation {
-                target: wButtonShadow
+                target: buttonShadow
                 property: 'shadowScale'
                 to: 1
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             NumberAnimation {
-                target: wButtonShadow
+                target: buttonShadow
                 property: 'shadowVerticalOffset'
                 to: 3 * Global.scale
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             NumberAnimation {
-                target: wButtonShadow
+                target: buttonShadow
                 property: 'shadowOpacity'
                 to: 0.3
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             PropertyAnimation {
-                target: wButtonRect
+                target: buttonRect
                 property: 'color.r'
                 to: root.color.r
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             PropertyAnimation {
-                target: wButtonRect
+                target: buttonRect
                 property: 'color.g'
                 to: root.color.g
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             PropertyAnimation {
-                target: wButtonRect
+                target: buttonRect
                 property: 'color.b'
                 to: root.color.b
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
 
             NumberAnimation {
-                target: wButtonRect
+                target: buttonRect
                 property: 'y'
                 to: 0
-                duration: 200
+                duration: Global.animationDuration
                 easing.type: Easing.InOutQuad
             }
         }
     }
 
     MultiEffect {
-        id: wButtonShadow
-        source: wButtonRect
-        anchors.fill: wButtonRect
+        id: buttonShadow
+        source: buttonRect
+        anchors.fill: buttonRect
         shadowEnabled: true
         shadowBlur: 0.3
         shadowScale: 1

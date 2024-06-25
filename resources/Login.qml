@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 Item {
+    id: root
     width: platform.width
     height: platform.height
 
@@ -29,8 +30,8 @@ Item {
 
     WPlatform {
         id: platform
-        implicitHeight: column.height + 80
-        implicitWidth: column.width + 100
+        height: column.height + 80
+        width: column.width + 100
 
         ColumnLayout {
             id: column
@@ -47,6 +48,29 @@ Item {
                 sizeScale: 2
             }
 
+            Item {
+                id: nameWindow
+                Layout.bottomMargin: 0
+                Layout.preferredHeight: 0
+                width: nameWindowColumn.width
+                clip: true
+
+                Column {
+                    id: nameWindowColumn
+
+                    WText {
+                        text: 'Name'
+                        font.bold: false
+                        sizeScale: 0.8
+                    }
+
+                    WTextField {
+                        id: name
+                        width: buttonsRow.width
+                    }
+                }
+            }
+
             Column {
                 Layout.alignment: Qt.AlignCenter
                 Layout.bottomMargin: 5
@@ -59,13 +83,14 @@ Item {
 
                 WTextField {
                     id: username
-                    width: column.width
+                    width: buttonsRow.width
                 }
             }
 
             Column {
+                id: passwordWindow
                 Layout.alignment: Qt.AlignCenter
-                Layout.bottomMargin: 15
+                Layout.bottomMargin: 0
 
                 WText {
                     text: 'Password'
@@ -75,33 +100,131 @@ Item {
 
                 WTextField {
                     id: password
-                    width: column.width
-                    // passwordCharacter: '*'
+                    width: buttonsRow.width
                     echoMode: TextInput.Password
                 }
             }
 
+            Item {
+                id: passwordAgainWindow
+                Layout.bottomMargin: 0
+                Layout.preferredHeight: 0
+                width: nameWindowColumn.width
+                clip: true
+
+                Column {
+                    WText {
+                        text: 'Password Again'
+                        font.bold: false
+                        sizeScale: 0.8
+                    }
+
+                    WTextField {
+                        id: passwordAgain
+                        width: buttonsRow.width
+                        echoMode: TextInput.Password
+                    }
+                }
+            }
+
             RowLayout {
+                id: buttonsRow
                 Layout.alignment: Qt.AlignCenter
+                Layout.topMargin: 15
+                spacing: 15
 
                 WButton {
                     id: loginButton
+                    property bool selected: true
                     Layout.alignment: Qt.AlignCenter
                     text: 'Login'
                     color: Global.successColor
+                    autoSize: true
 
                     onClicked: {
-                        api.authLogin(username.text, password.text)
+                        registerButton.clickAnimation.complete()
+                        loginButtonDiselectAnimtaion.complete()
+                        loginButton.color = Global.successColor
+
+                        if (!loginButton.selected) {
+                            registerFieldsShrinkAnimtaion.start()
+                        }
+                        loginButton.selected = true
+                        registerButton.selected = false
+                        registerButtonDiselectAnimtaion.start()
+                        // api.authLogin(username.text, password.text)
+                    }
+
+                    PropertyAnimation {
+                        id: loginButtonDiselectAnimtaion
+                        target: loginButton
+                        property: 'color'
+                        to: 'white'
+                        duration: Global.animationDuration
+                        easing.type: Easing.InOutQuad
+                    }
+
+                    PropertyAnimation {
+                        id: registerFieldsShrinkAnimtaion
+                        targets: [nameWindow, passwordAgainWindow]
+                        property: 'Layout.preferredHeight'
+                        to: 0
+                        duration: Global.animationDuration
+                        easing.type: Easing.InOutQuad
                     }
                 }
 
-                Rectangle {
-                    id: light
+                WButton {
+                    id: registerButton
+                    property bool selected: false
                     Layout.alignment: Qt.AlignCenter
-                    width: 15
-                    height: width
-                    radius: width
-                    color: Global.infoColor
+                    text: 'Register'
+                    color: 'white'
+                    autoSize: true
+
+                    onClicked: {
+                        loginButton.clickAnimation.complete()
+                        registerButtonDiselectAnimtaion.complete()
+                        registerButton.color = Global.successColor
+
+                        if (!registerButton.selected) {
+                            registerFieldsExpandAnimtaion.start()
+                        }
+
+                        registerButton.selected = true
+                        loginButton.selected = false
+                        loginButtonDiselectAnimtaion.start()
+                        // api.authLogin(username.text, password.text)
+                    }
+
+                    PropertyAnimation {
+                        id: registerButtonDiselectAnimtaion
+                        target: registerButton
+                        property: 'color'
+                        to: 'white'
+                        duration: Global.animationDuration
+                        easing.type: Easing.InOutQuad
+                    }
+
+                    ParallelAnimation {
+                        id: registerFieldsExpandAnimtaion
+
+                        PropertyAnimation {
+                            targets: [nameWindow, passwordAgainWindow]
+                            property: 'Layout.preferredHeight'
+                            to: nameWindowColumn.height
+                            duration: Global.animationDuration
+                            easing.type: Easing.InOutQuad
+                        }
+
+                        PropertyAnimation {
+                            targets: [nameWindow, passwordWindow]
+                            property: 'Layout.bottomMargin'
+                            to: 5
+                            duration: Global.animationDuration
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
                 }
             }
         }

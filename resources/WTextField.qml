@@ -2,7 +2,7 @@ import QtQuick
 
 Item {
     id: root
-    height: border.height
+    height: textInput.height
     property alias readonly: textInput.readOnly
     property alias text: textInput.text
     property alias passwordCharacter: textInput.passwordCharacter
@@ -10,8 +10,7 @@ Item {
 
     Rectangle {
         id: border
-        width: parent.width
-        height: textInput.height
+        anchors.fill: parent
         color: 'transparent'
         radius: Global.smallRadius
         border {
