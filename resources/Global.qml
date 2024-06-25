@@ -8,7 +8,10 @@ QtObject {
     property color phantomTextColor: '#dedede';
     property color weakTextColor: '#aaaaaa';
     property color strongTextColor: '#444444';
-    property color acceptColor: '#88ffaa'
+    property color infoColor: '#aaccff';
+    property color successColor: '#88ffaa'
+    property color warningColor: '#ffff88';
+    property color errorColor: '#ff8888'
     property string fontFamily: 'Source Code Pro'
 
     property int desktopHeight: Screen.desktopAvailableHeight

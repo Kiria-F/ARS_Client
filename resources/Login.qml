@@ -10,14 +10,20 @@ Item {
         target: api
 
         function onAuthLoginResponse(success, value) {
-            loginButton.text = success ? "Success" : "Failure"
-            let token = value
-            let tokenLen = token.length;
-            for (let i = 7; i > 0; i--) {
-                let index = (tokenLen / 8) * i;
-                token = token.slice(0, index) + '\n' + token.slice(index)
+            if (success) {
+                loginButton.text = 'Success'
+                light.color = Global.successColor
+                let token = value
+                let tokenLen = token.length;
+                for (let i = 7; i > 0; i--) {
+                    let index = (tokenLen / 8) * i;
+                    token = token.slice(0, index) + '\n' + token.slice(index)
+                }
+                popUp.show(token)
+            } else {
+                loginButton.text = 'Failure'
+                light.color = Global.warningColor
             }
-            popUp.show(token)
         }
     }
 
@@ -75,14 +81,27 @@ Item {
                 }
             }
 
-            WButton {
-                id: loginButton
+            RowLayout {
                 Layout.alignment: Qt.AlignCenter
-                text: 'Login'
-                color: Global.acceptColor
 
-                onClicked: {
-                    api.authLogin(username.text, password.text)
+                WButton {
+                    id: loginButton
+                    Layout.alignment: Qt.AlignCenter
+                    text: 'Login'
+                    color: Global.successColor
+
+                    onClicked: {
+                        api.authLogin(username.text, password.text)
+                    }
+                }
+
+                Rectangle {
+                    id: light
+                    Layout.alignment: Qt.AlignCenter
+                    width: 15
+                    height: width
+                    radius: width
+                    color: Global.infoColor
                 }
             }
         }

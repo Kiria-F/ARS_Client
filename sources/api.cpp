@@ -16,8 +16,8 @@ void Api::authLogin(QString username, QString password) {
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QJsonObject bodyObject;
-    bodyObject["username"] = "f";
-    bodyObject["password"] = "fds";
+    bodyObject["username"] = username;
+    bodyObject["password"] = password;
     QJsonDocument bodyDoc(bodyObject);
 
     QNetworkReply *reply = manager->post(request, bodyDoc.toJson());
