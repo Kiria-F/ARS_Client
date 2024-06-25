@@ -3,10 +3,12 @@ import QtQuick
 Item {
     id: root
     height: textInput.height
+    property alias core: textInput
     property alias readonly: textInput.readOnly
     property alias text: textInput.text
     property alias passwordCharacter: textInput.passwordCharacter
     property alias echoMode: textInput.echoMode
+    property var nextField
 
     Rectangle {
         id: border
@@ -34,6 +36,10 @@ Item {
             bottomPadding: topPadding
             leftPadding: 8
             rightPadding: leftPadding
+
+            KeyNavigation.tab: root.nextField
+            activeFocusOnTab: true
+            Keys.onReturnPressed: KeyNavigation.tab.forceActiveFocus();
 
             HoverHandler {
                 cursorShape: Qt.IBeamCursor

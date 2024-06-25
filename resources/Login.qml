@@ -4,6 +4,7 @@ import QtQuick.Controls
 
 Item {
     id: root
+    property bool expanded: false
     width: platform.width
     height: platform.height
 
@@ -12,18 +13,27 @@ Item {
 
         function onAuthLoginResponse(success, value) {
             if (success) {
-                loginButton.text = 'Success'
-                light.color = Global.successColor
-                let token = value
-                let tokenLen = token.length;
-                for (let i = 7; i > 0; i--) {
-                    let index = (tokenLen / 8) * i;
-                    token = token.slice(0, index) + '\n' + token.slice(index)
-                }
-                popUp.show(token)
+                // loginButton.text = 'Success'
+                // light.color = Global.successColor
+                // let token = value
+                // let tokenLen = token.length;
+                // for (let i = 7; i > 0; i--) {
+                //     let index = (tokenLen / 8) * i;
+                //     token = token.slice(0, index) + '\n' + token.slice(index)
+                // }
+                popUp.show('Типа залогинился')
             } else {
-                loginButton.text = 'Failure'
-                light.color = Global.warningColor
+                popUp.show('Типа не залогинился')
+                // loginButton.text = 'Failure'
+                // light.color = Global.warningColor
+            }
+        }
+
+        function onAuthRegisterResponse(success, value) {
+            if (success) {
+                popUp.show('Типа зарегался')
+            } else {
+                popUp.show('Типа не зарегался')
             }
         }
     }
@@ -67,6 +77,7 @@ Item {
                     WTextField {
                         id: name
                         width: buttonsRow.width
+                        nextField: username.core
                     }
                 }
             }
@@ -84,6 +95,7 @@ Item {
                 WTextField {
                     id: username
                     width: buttonsRow.width
+                    nextField: password.core
                 }
             }
 
@@ -102,6 +114,7 @@ Item {
                     id: password
                     width: buttonsRow.width
                     echoMode: TextInput.Password
+                    nextField: root.expanded ? passwordAgain.core : username.core
                 }
             }
 
@@ -123,6 +136,7 @@ Item {
                         id: passwordAgain
                         width: buttonsRow.width
                         echoMode: TextInput.Password
+                        nextField: name.core
                     }
                 }
             }
@@ -135,7 +149,6 @@ Item {
 
                 WButton {
                     id: loginButton
-                    property bool selected: true
                     Layout.alignment: Qt.AlignCenter
                     text: 'Login'
                     color: Global.successColor
@@ -146,13 +159,14 @@ Item {
                         loginButtonDiselectAnimtaion.complete()
                         loginButton.color = Global.successColor
 
-                        if (!loginButton.selected) {
+                        if (root.expanded) {
                             registerFieldsShrinkAnimtaion.start()
+                        } else {
+                            api.authLogin(username.text, password.text)
                         }
-                        loginButton.selected = true
-                        registerButton.selected = false
+
+                        root.expanded = false
                         registerButtonDiselectAnimtaion.start()
-                        // api.authLogin(username.text, password.text)
                     }
 
                     PropertyAnimation {
@@ -164,19 +178,29 @@ Item {
                         easing.type: Easing.InOutQuad
                     }
 
-                    PropertyAnimation {
+                    ParallelAnimation {
                         id: registerFieldsShrinkAnimtaion
-                        targets: [nameWindow, passwordAgainWindow]
-                        property: 'Layout.preferredHeight'
-                        to: 0
-                        duration: Global.animationDuration
-                        easing.type: Easing.InOutQuad
+
+                        PropertyAnimation {
+                            targets: [nameWindow, passwordAgainWindow]
+                            property: 'Layout.preferredHeight'
+                            to: 0
+                            duration: Global.animationDuration
+                            easing.type: Easing.InOutQuad
+                        }
+
+                        PropertyAnimation {
+                            targets: [nameWindow, passwordWindow]
+                            property: 'Layout.bottomMargin'
+                            to: 0
+                            duration: Global.animationDuration
+                            easing.type: Easing.InOutQuad
+                        }
                     }
                 }
 
                 WButton {
                     id: registerButton
-                    property bool selected: false
                     Layout.alignment: Qt.AlignCenter
                     text: 'Register'
                     color: 'white'
@@ -187,14 +211,18 @@ Item {
                         registerButtonDiselectAnimtaion.complete()
                         registerButton.color = Global.successColor
 
-                        if (!registerButton.selected) {
+                        if (!root.expanded) {
                             registerFieldsExpandAnimtaion.start()
+                        } else {
+                            if (password.text == passwordAgain.text) {
+                                api.authRegister(name.text, username.text, password.text)
+                            } else {
+                                popUp.show("Типа пароли не совпали")
+                            }
                         }
 
-                        registerButton.selected = true
-                        loginButton.selected = false
+                        root.expanded = true
                         loginButtonDiselectAnimtaion.start()
-                        // api.authLogin(username.text, password.text)
                     }
 
                     PropertyAnimation {
@@ -234,6 +262,6 @@ Item {
         id: popUp
         anchors.centerIn: parent
         autohide: false
-        text.font.pixelSize: 15
+        // text.font.pixelSize: 15
     }
 }

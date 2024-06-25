@@ -13,9 +13,11 @@ public:
 
 public slots:
     void authLogin(QString username, QString password);
+    void authRegister(QString name, QString username, QString password);
 
 signals:
     void authLoginResponse(bool success, QString message);
+    void authRegisterResponse(bool success, QString message);
 };
 
 #endif // API_H
