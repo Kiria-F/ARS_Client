@@ -20,6 +20,7 @@ qt_add_qml_module(ars-client-app
     VERSION 1.0
     SOURCES sources/api.h sources/api.cpp
     SOURCES sources/arsapiurl.h sources/arsapiurl.cpp
+    SOURCES sources/arsapirequest.h sources/arsapirequest.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

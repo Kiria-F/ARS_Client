@@ -11,29 +11,19 @@ Item {
     Connections {
         target: api
 
-        function onAuthLoginResponse(success, value) {
+        function onLoginResponse(success, message) {
             if (success) {
-                // loginButton.text = 'Success'
-                // light.color = Global.successColor
-                // let token = value
-                // let tokenLen = token.length;
-                // for (let i = 7; i > 0; i--) {
-                //     let index = (tokenLen / 8) * i;
-                //     token = token.slice(0, index) + '\n' + token.slice(index)
-                // }
-                popUp.show('Типа залогинился')
+                popUp.show('Оk')
             } else {
-                popUp.show('Типа не залогинился')
-                // loginButton.text = 'Failure'
-                // light.color = Global.warningColor
+                popUp.show('Error' + (message ? '\n' : '') + message)
             }
         }
 
-        function onAuthRegisterResponse(success, value) {
+        function onSignupResponse(success, message) {
             if (success) {
-                popUp.show('Типа зарегался')
+                popUp.show('Ok')
             } else {
-                popUp.show('Типа не зарегался')
+                popUp.show('Error' + (message ? '\n' : '') + message)
             }
         }
     }
@@ -162,7 +152,7 @@ Item {
                         if (root.expanded) {
                             registerFieldsShrinkAnimtaion.start()
                         } else {
-                            api.authLogin(username.text, password.text)
+                            api.login(username.text, password.text)
                         }
 
                         root.expanded = false
@@ -215,7 +205,8 @@ Item {
                             registerFieldsExpandAnimtaion.start()
                         } else {
                             if (password.text == passwordAgain.text) {
-                                api.authRegister(name.text, username.text, password.text)
+                                api.signup(name.text, username.text,
+                                           password.text)
                             } else {
                                 popUp.show("Типа пароли не совпали")
                             }

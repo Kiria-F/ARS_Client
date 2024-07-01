@@ -4,10 +4,23 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Allocated Rendering System")
+    title: qsTr('Allocated Rendering System')
     color: Global.backgroundColor
 
-    Login {
+    Loader {
+        id: loader
         anchors.centerIn: parent
+        source: 'Login.qml'
+    }
+
+    WButton {
+        text: 'test'
+        anchors {
+            bottom: parent.bottom
+            horizontalCenter: parent.horizontalCenter
+            bottomMargin: 10
+        }
+
+        onClicked: api.test()
     }
 }

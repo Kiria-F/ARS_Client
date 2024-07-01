@@ -1,7 +1,10 @@
 #include "arsapiurl.h"
-#include "QStringBuilder"
+#include <QLibraryInfo>
+#include <QStringBuilder>
 
-const QString ArsApiUrl::apiPrefix = "https://allrensys.com/api/";
+const QString ArsApiUrl::address = QLibraryInfo::isDebugBuild() ? "http://localhost:5057"
+                                                                : "https://allrensys.com";
+const QString ArsApiUrl::apiPrefix = address + "/api/";
 
 ArsApiUrl::ArsApiUrl() : QUrl() {}
 
