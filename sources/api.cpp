@@ -16,13 +16,6 @@ Api::Api(QObject* parent)
     nm->connectToHost(ArsApiUrl::address);
 }
 
-Api::~Api() {
-    if (!token.isEmpty()) {
-        qDebug() << "closing session";
-        nm->post(ArsApiRequest("close-session"), ArsApiRequest::toJsonBody({{"token", token}}));
-    }
-}
-
 void Api::login(QString username, QString password) {
     QNetworkReply* reply = nm->post(ArsApiRequest("login"),
                                     ArsApiRequest::toJsonBody(
@@ -58,13 +51,15 @@ void Api::signup(QString name, QString username, QString password) {
     });
 }
 
-void Api::test() {
+void Api::test() {}
+
+void Api::exitPrepare() {
     QNetworkReply* reply = nm->post(ArsApiRequest("close-session"), ('"' % token % '"').toUtf8());
     connect(reply, &QNetworkReply::finished, this, [this, reply]() {
-        auto response = reply->readAll();
-        qDebug() << "\n RESPONSE:\n" << response;
         if (reply->error())
             qDebug() << "\n ERROR:\n" << reply->errorString();
         reply->deleteLater();
+        qDebug() << "Session closed";
+        emit exitPrepared();
     });
 }
